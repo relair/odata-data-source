@@ -16,6 +16,14 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "odata-data-source": [
+        "dist/odata-data-source"
+      ],
+      "odata-data-source/*": [
+        "dist/odata-data-source/*"
+      ]
+    }
   }
 }
