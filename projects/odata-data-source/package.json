@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "author": "Marcin Suty",
-  "description": "Data source for material table and angular cdk table that can work with odata version 4 api.",
+  "description": "Data source for material table and angular cdk table that can work with OData version 4 API.",
   "keywords": [
     "angular",
     "angular2",
@@ -17,6 +17,10 @@
     "odata",
     "datasource"
   ],
+  "repository": {
+    "url": "https://github.com/relair/odata-data-source.git",
+    "type": "git"
+  },
   "peerDependencies": {
     "@angular/common": "^6.1.6",
     "@angular/core": "^6.1.6",
