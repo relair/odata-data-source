@@ -1,6 +1,6 @@
 {
   "name": "lib-demo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -27,7 +27,7 @@
     "core-js": "^2.5.7",
     "rxjs": "~6.3.2",
     "zone.js": "~0.8.26",
-    "odata-query": "5.4.2"
+    "odata-query": "^5.4.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.8.0",
