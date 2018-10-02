@@ -2,6 +2,12 @@
 
 Data source for material table and angular cdk table that can work with odata version 4 api. It supports sorting with MatSort and pagination with MatPaginator as well as per column filtering.
 
+## Demo
+
+Online demo: https://stackblitz.com/edit/odata-data-source
+
+Demo with [dynamic table](https://www.npmjs.com/package/material-dynamic-table): https://stackblitz.com/edit/dynamic-table-odata
+
 ## Getting started
 
 #### 1. Install odata-data-source:
@@ -61,8 +67,6 @@ export class AppComponent {
 
 #### API reference for odata-data-source
 
-##### Properties
-
 | Name         | Description                                                                                          |
 |--------------|------------------------------------------------------------------------------------------------------|
 | selectedFields: string[]  | Properties to select from the odata api                                                 |
@@ -73,4 +77,4 @@ export class AppComponent {
 
 #### ODataFilter
 
-ODataFilter has getFilter() method which needs to return an object that conforms to [odata-query](https://www.npmjs.com/package/odata-query#filtering) filter definition
+ODataFilter has getFilter() method which needs to return an object that conforms to [odata-query](https://www.npmjs.com/package/odata-query#filtering) filter definition. Individual filters are then composed together using 'and' operator.
