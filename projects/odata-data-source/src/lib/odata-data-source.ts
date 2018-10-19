@@ -12,7 +12,7 @@ export class ODataDataSource extends DataSource<any> {
   paginator: MatPaginator;
   selectedFields: string[];
 
-  private readonly filtersSubject = new BehaviorSubject<ODataFilter[]>(null);
+  protected readonly filtersSubject = new BehaviorSubject<ODataFilter[]>(null);
 
   constructor(
     private readonly httpClient: HttpClient,
