@@ -73,7 +73,7 @@ export class AppComponent {
 | sort: MatSort             | Instance of the MatSort directive used by the table to control its sorting. Sort changes emitted by the MatSort will trigger a request to get data from the api.                                               |
 | paginator: MatPaginator   | Instance of the MatPaginator component used by the table to control what page of the data is displayed. Page changes emitted by the MatPaginator will trigger a request to get data from the api.          |
 | filters: ODataFilter[]    | Array of filters that implement ODataFilter interface. Setting filters will trigger a request to get data from the api                                                                                      |
-| initialSort: string[]     | Sort that will be applied initialy, wchich will be overriden when manual sort is performed. Data can be sorted by multiple columns. Follow column name with 'desc' for descending order: 'columnName desc'                           |
+| initialSort: string[]     | Sort that will be applied initialy, which will be overriden when manual sort is performed. Data can be sorted by multiple columns. Follow column name with 'desc' for descending order: 'columnName desc'                           |
 
 
 #### ODataFilter
