@@ -25,5 +25,6 @@ export class AppComponent implements OnInit {
     this.dataSource = new ODataDataSource(this.httpClient, resourcePath);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.dataSource.initialSort = ['Rating desc', 'Name'];
   }
 }

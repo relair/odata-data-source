@@ -11,6 +11,7 @@ export class ODataDataSource extends DataSource<any> {
   sort: MatSort;
   paginator: MatPaginator;
   selectedFields: string[];
+  initialSort: string[];
 
   protected readonly filtersSubject = new BehaviorSubject<ODataFilter[]>(null);
 
@@ -83,12 +84,14 @@ export class ODataDataSource extends DataSource<any> {
       query.select = this.selectedFields;
     }
 
-    if (sortBy) {
+    if (sortBy && order) {
       if (order === 'asc') {
         query.orderBy = [sortBy];
       } else if (order === 'desc') {
         query.orderBy = [`${sortBy} desc`];
       }
+    } else if (this.initialSort && this.initialSort.length) {
+      query.orderBy = this.initialSort;
     }
 
     if (filters) {
