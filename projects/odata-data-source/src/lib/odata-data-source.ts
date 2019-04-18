@@ -1,6 +1,6 @@
 import { DataSource } from '@angular/cdk/table';
 import { HttpClient } from '@angular/common/http';
-import { MatSort, MatPaginator } from '@angular/material';
+import { MatMultiSort, MatPaginator } from '@angular/material';
 import { Observable, of as observableOf, merge, BehaviorSubject, ObservableInput, ReplaySubject, Subscription } from 'rxjs';
 import { switchMap, tap, map, catchError } from 'rxjs/operators';
 import buildQuery from 'odata-query';
@@ -8,7 +8,7 @@ import { ODataFilter } from './odata-filter';
 
 export class ODataDataSource extends DataSource<any> {
 
-  sort: MatSort;
+  sort: MatMultiSort;
   paginator: MatPaginator;
   selectedFields: string[];
   initialSort: string[];
@@ -35,8 +35,8 @@ export class ODataDataSource extends DataSource<any> {
           page = this.paginator.pageIndex;
         }
 
-        let sortBy = '';
-        let sortOrder = '';
+        let sortBy = [];
+        let sortOrder = null;
         if (this.sort) {
           sortBy = this.sort.active;
           sortOrder = this.sort.direction;
@@ -84,7 +84,7 @@ export class ODataDataSource extends DataSource<any> {
     }
   }
 
-  getData(page: number, sortBy: string, order: string, filters: ODataFilter[]): Observable<object> {
+  getData(page: number, sortBy: string[], order: {}, filters: ODataFilter[]): Observable<object> {
     let url = this.resourcePath;
     const query = {} as any;
 
@@ -99,12 +99,14 @@ export class ODataDataSource extends DataSource<any> {
       query.select = this.selectedFields;
     }
 
-    if (sortBy && order) {
-      if (order === 'asc') {
-        query.orderBy = [sortBy];
-      } else if (order === 'desc') {
-        query.orderBy = [`${sortBy} desc`];
-      }
+    if (sortBy && sortBy.length && order) {
+      query.orderBy = sortBy.map(s => {
+        if (order[s] === 'asc') {
+          return s;
+        } else if (order[s] === 'desc') {
+          return `${s} desc`;
+        }
+      });
     } else if (this.initialSort && this.initialSort.length) {
       query.orderBy = this.initialSort;
     }
