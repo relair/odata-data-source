@@ -12,6 +12,9 @@ export class ODataDataSource extends DataSource<any> {
   paginator: MatPaginator;
   selectedFields: string[];
   initialSort: string[];
+  setFilters(filters: ODataFilter[]) {
+    this.filtersSubject.next(filters);
+  }
 
   protected readonly filtersSubject = new BehaviorSubject<ODataFilter[]>(null);
 
@@ -22,7 +25,7 @@ export class ODataDataSource extends DataSource<any> {
   constructor(
     private readonly httpClient: HttpClient,
     private readonly resourcePath: string) {
-      super();      
+    super();
   }
 
   private createObservablePipe(): Observable<any> {
@@ -55,8 +58,8 @@ export class ODataDataSource extends DataSource<any> {
       }),
       map(this.mapResult)
     );
-  }  
-  
+  }
+
   private getObservable() {
     const toObserve = [this.filtersSubject] as Array<ObservableInput<any>>;
 
@@ -75,7 +78,7 @@ export class ODataDataSource extends DataSource<any> {
       this.subscription = this.createObservablePipe().subscribe(result => this.dataSubject.next(result));
     }
 
-    return this.dataSubject.asObservable();    
+    return this.dataSubject.asObservable();
   }
 
   disconnect(): void {
@@ -119,7 +122,7 @@ export class ODataDataSource extends DataSource<any> {
     }
 
     url = url + buildQuery(query);
-      
+
     return this.httpClient.get(url) as Observable<object>;
   }
 
@@ -127,5 +130,4 @@ export class ODataDataSource extends DataSource<any> {
     return result.value;
   }
 
-  set filters(filters: ODataFilter[]) { this.filtersSubject.next(filters); }
 }
