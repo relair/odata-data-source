@@ -15,9 +15,9 @@ export class ODataDataSource extends DataSource<any> {
 
   protected readonly filtersSubject = new BehaviorSubject<ODataFilter[]>(null);
 
-
   protected subscription: Subscription;
   protected readonly dataSubject: ReplaySubject<any> = new ReplaySubject<any>(1);
+  protected readonly errorSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(
     private readonly httpClient: HttpClient,
@@ -43,12 +43,19 @@ export class ODataDataSource extends DataSource<any> {
         }
 
         const result = this.getData(page, sortBy, sortOrder, this.filtersSubject.value);
-        return result.pipe(catchError(error => {
-          console.log(error);
-          return observableOf({ data: [] });
+        
+        return result.pipe(
+          tap(() => {
+            if (this.errorSubject.value != null) {
+              this.errorSubject.next(null);
+            }
+          }),
+          catchError(error => {
+          this.errorSubject.next(error);
+          return observableOf({ data: [] }, );
         }));
       }),
-      tap(result => {
+      tap(result => {        
         if (this.paginator) {
           this.paginator.length = result['@odata.count'];
         }
@@ -82,6 +89,10 @@ export class ODataDataSource extends DataSource<any> {
     if (this.subscription && this.dataSubject.observers.length === 0) {
       this.subscription.unsubscribe();
     }
+  }
+
+  get errors() {
+    return this.errorSubject.asObservable();
   }
 
   getData(page: number, sortBy: string, order: string, filters: ODataFilter[]): Observable<object> {
@@ -128,4 +139,5 @@ export class ODataDataSource extends DataSource<any> {
   }
 
   set filters(filters: ODataFilter[]) { this.filtersSubject.next(filters); }
+  get filters() { return this.filtersSubject.value; }
 }
