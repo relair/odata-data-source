@@ -1,7 +1,7 @@
 import { DataSource } from '@angular/cdk/table';
 import { HttpClient } from '@angular/common/http';
 import { MatSort, MatPaginator } from '@angular/material';
-import { Observable, of as observableOf, merge, BehaviorSubject, ObservableInput, ReplaySubject, Subscription } from 'rxjs';
+import { Observable, of as observableOf, merge, BehaviorSubject, ObservableInput, ReplaySubject, Subscription, Subject } from 'rxjs';
 import { switchMap, tap, map, catchError } from 'rxjs/operators';
 import buildQuery from 'odata-query';
 import { ODataFilter } from './odata-filter';
@@ -13,6 +13,9 @@ export class ODataDataSource extends DataSource<any> {
   selectedFields: string[];
   initialSort: string[];
 
+  data: Array<any>;
+  dataLoading: Subject<boolean>;
+
   protected readonly filtersSubject = new BehaviorSubject<ODataFilter[]>(null);
 
   protected subscription: Subscription;
@@ -22,7 +25,24 @@ export class ODataDataSource extends DataSource<any> {
   constructor(
     private readonly httpClient: HttpClient,
     private readonly resourcePath: string) {
-      super();      
+    super();
+
+    this.data = new Array<any>();
+    this.dataLoading = new Subject<boolean>();
+  }
+
+  refreshServer(): void {
+    this.dataLoading.next(true);
+    this.paginator._changePageSize(this.paginator.pageSize);
+  }
+
+  refreshLocal(): void {
+    this.dataSubject.next(this.data);
+  }
+
+  refreshLocalAndServer(): void {
+    this.refreshLocal();
+    this.refreshServer();
   }
 
   private createObservablePipe(): Observable<any> {
@@ -30,6 +50,8 @@ export class ODataDataSource extends DataSource<any> {
 
     return observable.pipe(
       switchMap(() => {
+        this.dataLoading.next(true);
+
         let page = 0;
         if (this.paginator) {
           page = this.paginator.pageIndex;
@@ -43,7 +65,7 @@ export class ODataDataSource extends DataSource<any> {
         }
 
         const result = this.getData(page, sortBy, sortOrder, this.filtersSubject.value);
-        
+
         return result.pipe(
           tap(() => {
             if (this.errorSubject.value != null) {
@@ -51,19 +73,21 @@ export class ODataDataSource extends DataSource<any> {
             }
           }),
           catchError(error => {
-          this.errorSubject.next(error);
-          return observableOf({ data: [] }, );
-        }));
+            this.errorSubject.next(error);
+            return observableOf({ data: [] });
+          }));
       }),
-      tap(result => {        
+      tap(result => {
         if (this.paginator) {
           this.paginator.length = result['@odata.count'];
+          this.data = result['value'];
+          this.dataLoading.next(false);
         }
       }),
       map(this.mapResult)
     );
-  }  
-  
+  }
+
   private getObservable() {
     const toObserve = [this.filtersSubject] as Array<ObservableInput<any>>;
 
@@ -82,7 +106,7 @@ export class ODataDataSource extends DataSource<any> {
       this.subscription = this.createObservablePipe().subscribe(result => this.dataSubject.next(result));
     }
 
-    return this.dataSubject.asObservable();    
+    return this.dataSubject.asObservable();
   }
 
   disconnect(): void {
@@ -130,7 +154,7 @@ export class ODataDataSource extends DataSource<any> {
     }
 
     url = url + buildQuery(query);
-      
+
     return this.httpClient.get(url) as Observable<object>;
   }
 
