@@ -17,6 +17,7 @@ export class ODataDataSource extends DataSource<any> {
 
   protected subscription: Subscription;
   protected readonly dataSubject: ReplaySubject<any> = new ReplaySubject<any>(1);
+  protected readonly loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   protected readonly errorSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(
@@ -30,6 +31,8 @@ export class ODataDataSource extends DataSource<any> {
 
     return observable.pipe(
       switchMap(() => {
+        this.loadingSubject.next(true);
+
         let page = 0;
         if (this.paginator) {
           page = this.paginator.pageIndex;
@@ -59,6 +62,7 @@ export class ODataDataSource extends DataSource<any> {
         if (this.paginator) {
           this.paginator.length = result['@odata.count'];
         }
+        this.loadingSubject.next(false);
       }),
       map(this.mapResult)
     );
@@ -89,6 +93,10 @@ export class ODataDataSource extends DataSource<any> {
     if (this.subscription && this.dataSubject.observers.length === 0) {
       this.subscription.unsubscribe();
     }
+  }
+
+  get loading() {
+    return this.loadingSubject.asObservable();
   }
 
   get errors() {

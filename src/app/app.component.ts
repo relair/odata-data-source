@@ -18,6 +18,8 @@ export class AppComponent implements OnInit {
 
   dataSource: ODataDataSource;
 
+  isLoading: boolean;
+
   constructor(private readonly httpClient: HttpClient) {}
 
   ngOnInit() {
@@ -26,12 +28,13 @@ export class AppComponent implements OnInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.dataSource.initialSort = ['Rating desc', 'Name'];
+    this.dataSource.loading.subscribe(loading => this.isLoading = loading);
     this.dataSource.errors.subscribe(error => {
       if (error) {
         console.error(error);
       } else {
         console.log('Error cleared');
       }      
-    });
+    });    
   }
 }
