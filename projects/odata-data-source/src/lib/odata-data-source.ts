@@ -16,7 +16,7 @@ export class ODataDataSource extends DataSource<any> {
   protected readonly filtersSubject = new BehaviorSubject<ODataFilter[]>(null);
 
   protected subscription: Subscription;
-  protected readonly dataSubject: ReplaySubject<any> = new ReplaySubject<any>(1);
+  protected readonly dataSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>(null);
   protected readonly loadingSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   protected readonly errorSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
@@ -26,7 +26,7 @@ export class ODataDataSource extends DataSource<any> {
       super();      
   }
 
-  private createObservablePipe(): Observable<any> {
+  private createObservablePipe(): Observable<any[]> {
     const observable = this.getObservable();
 
     return observable.pipe(
@@ -81,7 +81,7 @@ export class ODataDataSource extends DataSource<any> {
     return merge(...toObserve);
   }
 
-  connect(): Observable<any> {
+  connect(): Observable<any[]> {
     if (!this.subscription || this.subscription.closed) {
       this.subscription = this.createObservablePipe().subscribe(result => this.dataSubject.next(result));
     }
@@ -95,6 +95,13 @@ export class ODataDataSource extends DataSource<any> {
     }
   }
 
+  get data() {
+    return this.dataSubject.value;
+  }
+  set data(data) {
+    this.dataSubject.next(data);
+  }
+
   get loading() {
     return this.loadingSubject.asObservable();
   }
@@ -103,7 +110,14 @@ export class ODataDataSource extends DataSource<any> {
     return this.errorSubject.asObservable();
   }
 
-  getData(page: number, sortBy: string, order: string, filters: ODataFilter[]): Observable<object> {
+  get filters() { return this.filtersSubject.value; }
+  set filters(filters: ODataFilter[]) { this.filtersSubject.next(filters); }
+
+  refresh() {
+    this.filtersSubject.next(this.filtersSubject.value);
+  }
+
+  protected getData(page: number, sortBy: string, order: string, filters: ODataFilter[]): Observable<object> {
     let url = this.resourcePath;
     const query = {} as any;
 
@@ -142,10 +156,7 @@ export class ODataDataSource extends DataSource<any> {
     return this.httpClient.get(url) as Observable<object>;
   }
 
-  mapResult(result) {
+  mapResult(result): any[] {
     return result.value;
-  }
-
-  set filters(filters: ODataFilter[]) { this.filtersSubject.next(filters); }
-  get filters() { return this.filtersSubject.value; }
+  }  
 }
