@@ -110,6 +110,10 @@ export class ODataDataSource extends DataSource<any> {
     return this.errorSubject.asObservable();
   }
 
+  get filtering() {
+    return this.filtersSubject.asObservable();
+  }
+
   get filters() { return this.filtersSubject.value; }
   set filters(filters: ODataFilter[]) { this.filtersSubject.next(filters); }
 
