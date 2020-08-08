@@ -1,7 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSort, MatPaginator } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { ODataDataSource } from 'odata-data-source';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+
+import { ODataDataSource } from 'projects/odata-data-source/src/public_api';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +12,8 @@ import { ODataDataSource } from 'odata-data-source';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   title = 'odata-data-source-demo';
 

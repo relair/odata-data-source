@@ -1,5 +1,5 @@
 {
-  "name": "odata-data-source",
+  "name": "@agentender/odata-data-source",
   "version": "1.2.0",
   "license": "MIT",
   "author": "Marcin Suty",
@@ -19,13 +19,13 @@
     "datasource"
   ],
   "repository": {
-    "url": "https://github.com/relair/odata-data-source.git",
+    "url": "https://github.com/agentender/odata-data-source.git",
     "type": "git"
   },
   "peerDependencies": {
-    "@angular/common": "^7.0.0",
-    "@angular/core": "^7.0.0",
-    "@angular/cdk": "^7.0.0",
+    "@angular/common": "^8.0.0",
+    "@angular/core": "^8.0.0",
+    "@angular/cdk": "^8.0.0",
     "odata-query": "^5.4.2"
   }
 }
