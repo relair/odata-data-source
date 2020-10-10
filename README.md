@@ -1,12 +1,16 @@
+[![npm version](https://badge.fury.io/js/odata-data-source.svg)](//npmjs.com/package/odata-data-source)
+
 # odata-data-source
 
 Data source for material table and angular cdk table that can work with odata version 4 api. It supports sorting with MatSort and pagination with MatPaginator as well as per column filtering.
 
 ## Demo
 
-Online demo: https://stackblitz.com/edit/odata-data-source
+Online demo: https://stackblitz.com/edit/odata-data-source-v8
 
 Demo with [dynamic table](https://www.npmjs.com/package/material-dynamic-table): https://stackblitz.com/edit/dynamic-table-odata
+
+The supported version of Angular Material will be indicated by the major version number of this library. Version 8.2.0 is for Angular Material ^8.0.0
 
 ## Getting started
 
