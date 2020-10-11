@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSort, MatPaginator } from '@angular/material';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 import { HttpClient } from '@angular/common/http';
 import { ODataDataSource } from 'odata-data-source';
 
@@ -28,7 +29,7 @@ export class AppComponent implements OnInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.dataSource.initialSort = ['Rating desc', 'Name'];
-    this.dataSource.loading.subscribe(loading => this.isLoading = loading);
+    this.dataSource.loading.subscribe(async loading => this.isLoading = await loading);
     this.dataSource.errors.subscribe(error => {
       if (error) {
         console.error(error);

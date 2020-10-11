@@ -3,11 +3,9 @@ import { TestBed, async } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  MatTableModule,
-  MatSortModule,
-  MatPaginatorModule
-} from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppComponent } from './app.component';
 

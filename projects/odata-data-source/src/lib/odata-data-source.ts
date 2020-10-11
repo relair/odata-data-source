@@ -1,7 +1,8 @@
 import { DataSource } from '@angular/cdk/table';
 import { HttpClient } from '@angular/common/http';
-import { MatSort, MatPaginator } from '@angular/material';
-import { Observable, of as observableOf, merge, BehaviorSubject, ObservableInput, ReplaySubject, Subscription } from 'rxjs';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { Observable, of as observableOf, merge, BehaviorSubject, ObservableInput, Subscription } from 'rxjs';
 import { switchMap, tap, map, catchError } from 'rxjs/operators';
 import buildQuery from 'odata-query';
 import { ODataFilter } from './odata-filter';

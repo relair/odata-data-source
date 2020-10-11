@@ -136,6 +136,7 @@
           },
           "configurations":{
             "production": {
+              "tsConfig": "projects/odata-data-source/tsconfig.lib.prod.json"
             }
           }
         },

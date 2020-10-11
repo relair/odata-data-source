@@ -6,11 +6,11 @@ Data source for material table and angular cdk table that can work with odata ve
 
 ## Demo
 
-Online demo: https://stackblitz.com/edit/odata-data-source-v8
+Online demo: https://stackblitz.com/edit/odata-data-source-v9
 
 Demo with [dynamic table](https://www.npmjs.com/package/material-dynamic-table): https://stackblitz.com/edit/dynamic-table-odata
 
-The supported version of Angular Material will be indicated by the major version number of this library. Version 8.2.0 is for Angular Material ^8.0.0
+The supported version of Angular Material will be indicated by the major version number of this library. Version 8.2.0 is for Angular Material ^8.0.0, version 9.2.0 is for ^9.0.0, while versions <1.2.0 should work for angular versions <8.0.0.
 
 ## Getting started
 
