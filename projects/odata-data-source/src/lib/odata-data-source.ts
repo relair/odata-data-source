@@ -13,6 +13,7 @@ export class ODataDataSource extends DataSource<any> {
   paginator: MatPaginator;
   selectedFields: string[];
   initialSort: string[];
+  expandedFields: string[] | object;
 
   protected readonly filtersSubject = new BehaviorSubject<ODataFilter[]>(null);
 
@@ -150,6 +151,10 @@ export class ODataDataSource extends DataSource<any> {
       });
 
       query.filter = filterQuery;
+    }
+
+    if (this.expandedFields) {
+      query.expand = this.expandedFields;
     }
 
     url = url + buildQuery(query);
