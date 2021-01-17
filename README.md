@@ -10,7 +10,7 @@ Online demo: https://stackblitz.com/edit/odata-data-source-v9
 
 Demo with [dynamic table](https://www.npmjs.com/package/material-dynamic-table): https://stackblitz.com/edit/dynamic-table-odata
 
-The supported version of Angular Material will be indicated by the major version number of this library. Version 8.2.0 is for Angular Material ^8.0.0, version 9.2.0 is for ^9.0.0, while versions <1.2.0 should work for angular versions <8.0.0.
+The supported version of Angular Material will be indicated by the major version number of this library. Version 8.2.0 is for Angular Material ^8.0.0, version 9.3.0 is for ^9.0.0, while versions <1.2.0 should work for angular versions <8.0.0.
 
 ## Getting started
 
@@ -78,6 +78,7 @@ export class AppComponent {
 | paginator: MatPaginator      | Instance of the MatPaginator component used by the table to control what page of the data is displayed. Page changes emitted by the MatPaginator will trigger a request to get data from the api.          |
 | filters: ODataFilter[]       | Array of filters that implement ODataFilter interface. Setting filters will trigger a request to get data from the api.                                                                                    |
 | initialSort: string[]        | Sort that will be applied initialy, which will be overriden when manual sort is performed. Data can be sorted by multiple columns. Follow column name with 'desc' for descending order: 'columnName desc'. |
+| expandedFields: string[] \| object | Properties in the odata api to be expanded. |
 | data: any[]                  | Result last propagated to subscribed observers. Setting this value would update subscribed observers. |
 | loading: Observable<boolean> | Observable that indicates if data is being loaded.                                   |
 | errors: Observable<any>      | Observable that indicates errors being returned from the OData api. Emits errors from httpClient or null when they are cleared by subsequesnt successful requests.                                         |
