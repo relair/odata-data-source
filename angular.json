@@ -38,7 +38,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -83,24 +82,6 @@
         }        
       }
     },
-    "lib-demo-e2e": {
-      "root": "e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "lib-demo:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "lib-demo:serve:production"
-            }
-          }
-        }       
-      }
-    },
     "odata-data-source": {
       "root": "projects/odata-data-source",
       "sourceRoot": "projects/odata-data-source/src",
@@ -108,7 +89,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/odata-data-source/tsconfig.lib.json",
             "project": "projects/odata-data-source/ng-package.json"
