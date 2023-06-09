@@ -80,19 +80,7 @@
               "src/assets"
             ]
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
+        }        
       }
     },
     "lib-demo-e2e": {
@@ -110,16 +98,7 @@
               "devServerTarget": "lib-demo:serve:production"
             }
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
+        }       
       }
     },
     "odata-data-source": {
@@ -147,19 +126,7 @@
             "tsConfig": "projects/odata-data-source/tsconfig.spec.json",
             "karmaConfig": "projects/odata-data-source/karma.conf.js"
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/odata-data-source/tsconfig.lib.json",
-              "projects/odata-data-source/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
+        }        
       }
     }
   },
