@@ -1,13 +1,13 @@
 {
   "name": "odata-data-source",
-  "version": "13.3.0",
+  "version": "14.3.0",
   "license": "MIT",
   "author": "Marcin Suty",
   "description": "Data source for material table and angular cdk table that can work with OData version 4 API.",
   "keywords": [
     "angular",
     "angular2",
-    "angular13",
+    "angular14",
     "ng",
     "ng2",
     "dynamic",
@@ -22,10 +22,10 @@
     "url": "https://github.com/relair/odata-data-source.git",
     "type": "git"
   },
-  "peerDependencies": {
-    "@angular/common": "^13.0.0",
-    "@angular/core": "^13.0.0",
-    "@angular/cdk": "^13.0.0",
+  "peerDependencies": {]
+    "@angular/common": "^14.0.0",
+    "@angular/core": "^14.0.0",
+    "@angular/cdk": "^14.0.0",
     "odata-query": "^7.0.4"
   }
 }
