@@ -1,7 +1,7 @@
 import { DataSource } from '@angular/cdk/table';
 import { HttpClient } from '@angular/common/http';
 import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { Observable, of as observableOf, merge, BehaviorSubject, ObservableInput, Subscription } from 'rxjs';
 import { switchMap, tap, map, catchError } from 'rxjs/operators';
 import buildQuery from 'odata-query';
