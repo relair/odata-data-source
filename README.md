@@ -6,7 +6,7 @@ Data source for material table and angular cdk table that can work with odata ve
 
 ## Demo
 
-Online demo: https://stackblitz.com/edit/odata-data-source-v11
+Online demo: https://stackblitz.com/edit/odata-data-source-v12
 
 Demo with [dynamic table](https://www.npmjs.com/package/material-dynamic-table): https://stackblitz.com/edit/dynamic-table-odata
 
