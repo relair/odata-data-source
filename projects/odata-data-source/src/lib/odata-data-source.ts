@@ -1,16 +1,33 @@
 import { DataSource } from '@angular/cdk/table';
 import { HttpClient } from '@angular/common/http';
-import { MatSort } from '@angular/material/sort';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { EventEmitter } from '@angular/core';
 import { Observable, of as observableOf, merge, BehaviorSubject, ObservableInput, Subscription } from 'rxjs';
 import { switchMap, tap, map, catchError } from 'rxjs/operators';
 import buildQuery from 'odata-query';
 import { ODataFilter } from './odata-filter';
 
+type SingleSort = {
+  active: string,
+  direction: 'asc' | 'desc' | '',
+  sortChange: EventEmitter<any>
+};
+
+type MultiSort = {
+  sortedBy: { id: string, direction: 'asc' | 'desc' }[],
+  multiSortChange: EventEmitter<any>
+};
+
+type Paginator = {
+  pageIndex: number,
+  pageSize: number,
+  length: number,
+  page: EventEmitter<any>
+}
+
 export class ODataDataSource extends DataSource<any> {
 
-  sort: MatSort;
-  paginator: MatPaginator;
+  sort: SingleSort | MultiSort;
+  paginator: Paginator;
   selectedFields: string[];
   initialSort: string[];
   expandedFields: string[] | object;
@@ -40,14 +57,18 @@ export class ODataDataSource extends DataSource<any> {
           page = this.paginator.pageIndex;
         }
 
-        let sortBy = '';
-        let sortOrder = '';
-        if (this.sort) {
-          sortBy = this.sort.active;
-          sortOrder = this.sort.direction;
-        }
+        let sortedBy: { id: string, direction: 'asc' | 'desc' }[] = [];
 
-        const result = this.getData(page, sortBy, sortOrder, this.filtersSubject.value);
+        if (this.sort) {
+          if (('multiSortChange' in this.sort)) {
+            sortedBy = this.sort.sortedBy;
+          }
+          else if ('direction' in this.sort && this.sort.active && this.sort.direction) {
+            sortedBy.push({ id: this.sort.active, direction: this.sort.direction });
+          }
+        }        
+
+        const result = this.getData(page, sortedBy, this.filtersSubject.value);
         
         return result.pipe(
           tap(() => {
@@ -77,7 +98,11 @@ export class ODataDataSource extends DataSource<any> {
       toObserve.push(this.paginator.page);
     }
     if (this.sort) {
-      toObserve.push(this.sort.sortChange);
+      if (('multiSortChange' in this.sort)) {
+        toObserve.push(this.sort.multiSortChange);
+      } else if ('sortChange' in this.sort) {
+        toObserve.push(this.sort.sortChange);
+      }     
     }
 
     return merge(...toObserve);
@@ -119,7 +144,7 @@ export class ODataDataSource extends DataSource<any> {
     this.filtersSubject.next(this.filtersSubject.value);
   }
 
-  protected getData(page: number, sortBy: string, order: string, filters: ODataFilter[]): Observable<object> {
+  protected getData(page: number, sortedBy: { id: string, direction: 'asc' | 'desc' }[], filters: ODataFilter[]): Observable<object> {
     let url = this.resourcePath;
     const query = {} as any;
 
@@ -134,12 +159,8 @@ export class ODataDataSource extends DataSource<any> {
       query.select = this.selectedFields;
     }
 
-    if (sortBy && order) {
-      if (order === 'asc') {
-        query.orderBy = [sortBy];
-      } else if (order === 'desc') {
-        query.orderBy = [`${sortBy} desc`];
-      }
+    if (sortedBy?.length) {
+      query.orderBy = sortedBy.map(s => `${s.id} ${s.direction}`);
     } else if (this.initialSort && this.initialSort.length) {
       query.orderBy = this.initialSort;
     }
